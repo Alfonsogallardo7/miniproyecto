@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor @NoArgsConstructor
-public class ApiValidationSubError {
+public class ApiValidationSubError extends ApiSubError{
 
     private String objeto, campo, mensaje;
     private Object valorRechazado;

@@ -3,6 +3,7 @@ package com.salesianostriana.dam.miniproyecto.dto.poi;
 import com.salesianostriana.dam.miniproyecto.models.Category;
 import com.salesianostriana.dam.miniproyecto.models.Route;
 import lombok.*;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +21,7 @@ public class CreatePoiDto {
 
     private LocalDate date;
 
+    @URL
     private String coverPhoto;
 
     private String photo2;
