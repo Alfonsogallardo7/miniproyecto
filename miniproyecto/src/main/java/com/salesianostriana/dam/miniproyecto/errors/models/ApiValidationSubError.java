@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor @AllArgsConstructor
 @Builder
-@AllArgsConstructor @NoArgsConstructor
-public class ApiValidationSubError extends ApiSubError{
+public class ApiValidationSubError extends ApiSubError {
 
     private String objeto, campo, mensaje;
     private Object valorRechazado;
+
+
 }

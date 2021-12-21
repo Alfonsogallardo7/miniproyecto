@@ -4,12 +4,16 @@ import com.salesianostriana.dam.miniproyecto.dto.route.CreateRouteDto;
 import com.salesianostriana.dam.miniproyecto.dto.route.RouteDtoConverter;
 import com.salesianostriana.dam.miniproyecto.errors.exceptions.ListEntityNotFoundException;
 import com.salesianostriana.dam.miniproyecto.errors.exceptions.SingleEntityNotFoundException;
+import com.salesianostriana.dam.miniproyecto.models.Category;
+import com.salesianostriana.dam.miniproyecto.models.POI;
 import com.salesianostriana.dam.miniproyecto.models.Route;
+import com.salesianostriana.dam.miniproyecto.repository.POIRepository;
 import com.salesianostriana.dam.miniproyecto.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +21,7 @@ public class RouteService {
 
     private final RouteRepository repository;
     private final RouteDtoConverter dtoConverter;
+    private final POIRepository poiRepository;
 
     public List<Route> findAll() {
         List<Route> result = repository.findAll();
@@ -53,10 +58,16 @@ public class RouteService {
 
 
     public void deleteById (Long id) {
-        repository.findById(id)
-                .orElseThrow(()-> new SingleEntityNotFoundException(id.toString(), Route.class));
-        if (repository.findById(id)!=null) {
-            repository.deleteById(id);
+        Optional<Route> route = repository.findById(id);
+        if (route.isEmpty()){
+            throw new SingleEntityNotFoundException(id.toString(), Category.class);
+        } else {
+            List<POI> poi = poiRepository.todasCategoriasPoi(id);
+            poi.forEach(p -> {
+                p.setRoute(null);
+
+                poiRepository.save(p);
+            });
         }
     }
 }

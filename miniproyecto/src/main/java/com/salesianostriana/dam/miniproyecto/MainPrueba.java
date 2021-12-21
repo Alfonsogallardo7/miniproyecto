@@ -1,11 +1,13 @@
 package com.salesianostriana.dam.miniproyecto;
 
 import com.salesianostriana.dam.miniproyecto.models.Category;
+import com.salesianostriana.dam.miniproyecto.models.POI;
 import com.salesianostriana.dam.miniproyecto.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor

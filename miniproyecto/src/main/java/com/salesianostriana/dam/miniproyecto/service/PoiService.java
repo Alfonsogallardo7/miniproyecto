@@ -4,12 +4,17 @@ import com.salesianostriana.dam.miniproyecto.dto.poi.CreatePoiDto;
 import com.salesianostriana.dam.miniproyecto.dto.poi.PoiDtoConverter;
 import com.salesianostriana.dam.miniproyecto.errors.exceptions.ListEntityNotFoundException;
 import com.salesianostriana.dam.miniproyecto.errors.exceptions.SingleEntityNotFoundException;
+import com.salesianostriana.dam.miniproyecto.models.Category;
 import com.salesianostriana.dam.miniproyecto.models.POI;
+import com.salesianostriana.dam.miniproyecto.models.Route;
+import com.salesianostriana.dam.miniproyecto.repository.CategoryRepository;
 import com.salesianostriana.dam.miniproyecto.repository.POIRepository;
+import com.salesianostriana.dam.miniproyecto.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +22,8 @@ public class PoiService {
 
     private final POIRepository repository;
     private final PoiDtoConverter dtoConverter;
+    private final CategoryRepository categoryRepository;
+    private final RouteRepository routeRepository;
 
     public List<POI> findAll() {
         List<POI> result = repository.findAll();
@@ -60,10 +67,23 @@ public class PoiService {
 
 
     public void deleteById (Long id) {
-        repository.findById(id)
-                .orElseThrow(()-> new SingleEntityNotFoundException(id.toString(), POI.class));
-        if (repository.findById(id)!=null) {
-            repository.deleteById(id);
+        Optional<POI> poi = repository.findById(id);
+        if (poi.isEmpty()){
+            throw new SingleEntityNotFoundException(id.toString(), Category.class);
+        } else {
+            List<Category> categories = categoryRepository.todosPoiCategorias(id);
+            categories.forEach(p -> {
+                p.setPoi(null);
+
+                categoryRepository.save(p);
+            });
+
+            List<Route> routes = routeRepository.todosRoutePoi(id);
+            routes.forEach(p-> {
+                p.setSteps(null);
+
+                routeRepository.save(p);
+            });
         }
     }
 }

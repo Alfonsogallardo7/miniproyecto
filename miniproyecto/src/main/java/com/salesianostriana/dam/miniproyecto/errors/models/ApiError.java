@@ -17,7 +17,7 @@ import java.util.List;
 public class ApiError {
 
     private HttpStatus estado;
-    private int condigo;
+    private int codigo;
     private String mensaje;
     private String ruta;
 
@@ -28,15 +28,15 @@ public class ApiError {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ApiSubError> subErrores;
 
-    public ApiError (HttpStatus estado, String mensaje, String ruta) {
+    public ApiError(HttpStatus estado, String mensaje, String ruta) {
         this.estado = estado;
+        this.codigo = estado.value();
         this.mensaje = mensaje;
-        this.condigo = estado.value();
         this.fecha = LocalDateTime.now();
         this.ruta = ruta;
     }
 
-    public ApiError (HttpStatus estado, String mensaje, String ruta, List<ApiSubError> subErrores) {
+    public ApiError(HttpStatus estado, String mensaje, String ruta, List<ApiSubError> subErrores) {
         this(estado, mensaje, ruta);
         this.subErrores = subErrores;
     }

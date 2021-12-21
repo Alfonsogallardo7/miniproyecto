@@ -20,4 +20,13 @@ public class Route implements Serializable {
 
     @ManyToMany (mappedBy = "route", fetch = FetchType.EAGER)
     private List <POI> steps;
+
+    public Route(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Route(String nombre, List<POI> steps) {
+        this.nombre = nombre;
+        this.steps = steps;
+    }
 }

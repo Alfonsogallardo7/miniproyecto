@@ -39,4 +39,27 @@ public class POI implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Route> route = new ArrayList<>();
+
+
+    public POI(String nombre, String location, String description, LocalDate date, String coverPhoto, String photo2, String photo3) {
+        this.nombre = nombre;
+        this.location = location;
+        this.description = description;
+        this.date = date;
+        this.coverPhoto = coverPhoto;
+        this.photo2 = photo2;
+        this.photo3 = photo3;
+    }
+
+    public POI(String nombre, String location, String description, LocalDate date, String coverPhoto, String photo2, String photo3, Category category, List<Route> route) {
+        this.nombre = nombre;
+        this.location = location;
+        this.description = description;
+        this.date = date;
+        this.coverPhoto = coverPhoto;
+        this.photo2 = photo2;
+        this.photo3 = photo3;
+        this.category = category;
+        this.route = route;
+    }
 }

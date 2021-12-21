@@ -25,4 +25,13 @@ public class Category implements Serializable {
     @Builder.Default
     @OneToMany(mappedBy = "category")
     private List<POI> poi = new ArrayList<>();
+
+    public Category(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Category(String nombre, List<POI> poi) {
+        this.nombre = nombre;
+        this.poi = poi;
+    }
 }
